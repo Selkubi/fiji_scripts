@@ -1,93 +1,103 @@
-# fiji_scripts
+# UPGON Lab — Fiji Script Repository
 
+This repository is the central archive of Fiji/ImageJ scripts produced by members of the UPGON lab at EPFL. It is built on the [ImageJ example-script-collection](https://github.com/imagej/example-script-collection) Maven template, which means scripts are packaged into a `.jar` file that can be installed directly into any Fiji installation.
 
+---
 
-## Getting started
+## Why This Repository Exists
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Fiji scripts are core scientific instruments. When a script is used to produce figures or measurements in a publication, it must be preserved exactly as it was used — not on a personal laptop that may be reformatted, not in an email attachment, and not in a folder called `final_FINAL_v3`.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+**When you leave the lab, your scripts leave with you — unless you deposit them here.**
 
-## Add your files
+This repository ensures that:
 
-* [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+- Every script tied to a publication is permanently archived and version-controlled
+- Future lab members can reproduce your results without tracking you down years later
+- Reviewers and collaborators can access the exact analysis tools described in your methods section
+- The lab does not lose years of methodological development between student rotations
+
+Depositing your scripts here is part of your offboarding checklist. It is not optional.
+
+---
+
+## Repository Structure
+
+Scripts are organized by **analysis category**, not by author. This keeps the repository useful after you leave.
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.epfl.ch/upgon/projects/fiji_scripts.git
-git branch -M main
-git push -uf origin main
+src/main/resources/scripts/
+└── UPGON/
+    ├── Brightness_Contrast/
+    ├── Cell_Segmentation/
+    ├── Intensity_Analysis/
+    ├── Morphology/
+    └── Tracking/
 ```
 
-## Integrate with your tools
+Each script category maps directly to a submenu in Fiji's **Plugins** menu once the collection is installed. If your script does not fit an existing category, propose a new folder in your merge request.
 
-* [Set up project integrations](https://gitlab.epfl.ch/upgon/projects/fiji_scripts/-/settings/integrations)
+Each script must have a matching documentation file in `docs/scripts/`. Use the template at `docs/scripts/TEMPLATE.md`.
 
-## Collaborate with your team
+---
 
-* [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+## How to Install the Scripts in Your Personal Fiji
 
-## Test and Deploy
+There are two ways to use scripts from this repository in your local Fiji. Use **Method 1** if you want the full collection; use **Method 2** for a single script.
 
-Use the built-in continuous integration in GitLab.
+### Method 1 — Install the full collection (recommended)
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+This installs all scripts from this repository as a Fiji plugin. They will appear under **Plugins > UPGON** in the menu.
 
-***
+**Prerequisites:** Java 8+ and Maven installed.
 
-# Editing this README
+1. Clone this repository:
+   ```
+   git clone https://gitlab.epfl.ch/upgon/projects/fiji_scripts.git
+   cd fiji_scripts
+   ```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+2. Build the `.jar` file:
+   ```
+   mvn package
+   ```
+   This produces `target/example-script-collection-X.X.X-SNAPSHOT.jar`.
 
-## Suggestions for a good README
+3. Copy the `.jar` into your Fiji plugins folder:
+   - **macOS:** `Fiji.app/plugins/`
+   - **Windows:** `Fiji\plugins\`
+   - **Linux:** `Fiji.app/plugins/`
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+4. Restart Fiji. The scripts will appear under **Plugins > UPGON**.
 
-## Name
-Choose a self-explaining name for your project.
+To update to the latest version, run `git pull` followed by `mvn package` and replace the `.jar`.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Method 2 — Run a single script directly
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+1. Open Fiji.
+2. Go to **File > Open** and navigate to the `.ijm`, `.groovy`, or `.py` file from this repository.
+3. The Script Editor will open. Click **Run** to execute it.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Alternatively, drag and drop the script file onto the Fiji toolbar to open it in the Script Editor.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+---
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+## How to Contribute — Offboarding Checklist
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+If you are leaving the lab and have scripts used in publications or shared analyses, follow the steps in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+The short version:
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+1. Place your script in the correct category folder under `src/main/resources/scripts/UPGON/`
+2. Add a header comment block inside the script file (see `docs/scripts/TEMPLATE.md`)
+3. Create a documentation file for your script in `docs/scripts/` using the template
+4. Open a merge request on GitLab
+5. A lab member reviews and merges it
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Do this **before your last day**. It takes under an hour per script.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+---
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+## Questions
 
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Post in the lab channel or open an issue on GitLab.
